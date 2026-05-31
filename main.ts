@@ -471,64 +471,42 @@ game.onUpdate(function () {
         小王子.vy = 0
     }
 })
+function createTrackingBullet () {
+    let dx = 小王子.x - Boss.x
+    let dy = 小王子.y - Boss.y
+    let dist = Math.sqrt(dx * dx + dy * dy)
+    let speed = isBerserk ? 100 : 60
+    let bullet = sprites.createProjectileFromSprite(img`
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . 4 4 4 4 4 . . . . . .
+        . . . 4 4 4 5 5 5 d 4 4 4 4 . .
+        . . 4 d 5 d 5 5 5 d d d 4 4 . .
+        . . 4 5 5 1 1 1 d d 5 5 5 4 . .
+        . 4 5 5 5 1 1 1 5 1 1 5 5 4 4 .
+        . 4 d d 1 1 5 5 5 1 1 5 5 d 4 .
+        . 4 5 5 1 1 5 1 1 5 5 d d d 4 .
+        . 2 5 5 5 d 1 1 1 5 1 1 5 5 2 .
+        . 2 d 5 5 d 1 1 1 5 1 1 5 5 2 .
+        . . 2 4 d d 5 5 5 5 d d 5 4 . .
+        . . . 2 2 4 d 5 5 d d 4 4 . . .
+        . . 2 2 2 2 2 4 4 4 2 2 2 . . .
+        . . . 2 2 4 4 4 4 4 4 2 2 . . .
+        . . . . . 2 2 2 2 2 2 . . . . .
+        `, Boss, 0, 0)
+    if (dist > 0) {
+        bullet.vx = (dx / dist) * speed
+        bullet.vy = (dy / dist) * speed
+    }
+    Boss的火球 = bullet
+}
 game.onUpdateInterval(2000, function () {
-    Boss的火球 = sprites.createProjectileFromSprite(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . 4 4 4 4 4 . . . . . . 
-        . . . 4 4 4 5 5 5 d 4 4 4 4 . . 
-        . . 4 d 5 d 5 5 5 d d d 4 4 . . 
-        . . 4 5 5 1 1 1 d d 5 5 5 4 . . 
-        . 4 5 5 5 1 1 1 5 1 1 5 5 4 4 . 
-        . 4 d d 1 1 5 5 5 1 1 5 5 d 4 . 
-        . 4 5 5 1 1 5 1 1 5 5 d d d 4 . 
-        . 2 5 5 5 d 1 1 1 5 1 1 5 5 2 . 
-        . 2 d 5 5 d 1 1 1 5 1 1 5 5 2 . 
-        . . 2 4 d d 5 5 5 5 d d 5 4 . . 
-        . . . 2 2 4 d 5 5 d d 4 4 . . . 
-        . . 2 2 2 2 2 4 4 4 2 2 2 . . . 
-        . . . 2 2 4 4 4 4 4 4 2 2 . . . 
-        . . . . . 2 2 2 2 2 2 . . . . . 
-        `, Boss, isBerserk ? -180 : -100, 0)
+    createTrackingBullet()
 })
 game.onUpdateInterval(800, function () {
     if (isBerserk) {
-        sprites.createProjectileFromSprite(img`
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . 4 4 4 4 4 . . . . . .
-            . . . 4 4 4 5 5 5 d 4 4 4 4 . .
-            . . 4 d 5 d 5 5 5 d d d 4 4 . .
-            . . 4 5 5 1 1 1 d d 5 5 5 4 . .
-            . 4 5 5 5 1 1 1 5 1 1 5 5 4 4 .
-            . 4 d d 1 1 5 5 5 1 1 5 5 d 4 .
-            . 4 5 5 1 1 5 1 1 5 5 d d d 4 .
-            . 2 5 5 5 d 1 1 1 5 1 1 5 5 2 .
-            . 2 d 5 5 d 1 1 1 5 1 1 5 5 2 .
-            . . 2 4 d d 5 5 5 5 d d 5 4 . .
-            . . . 2 2 4 d 5 5 d d 4 4 . . .
-            . . 2 2 2 2 2 4 4 4 2 2 2 . . .
-            . . . 2 2 4 4 4 4 4 4 2 2 . . .
-            . . . . . 2 2 2 2 2 2 . . . . .
-            `, Boss, -170, -55)
-sprites.createProjectileFromSprite(img`
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . 4 4 4 4 4 . . . . . .
-            . . . 4 4 4 5 5 5 d 4 4 4 4 . .
-            . . 4 d 5 d 5 5 5 d d d 4 4 . .
-            . . 4 5 5 1 1 1 d d 5 5 5 4 . .
-            . 4 5 5 5 1 1 1 5 1 1 5 5 4 4 .
-            . 4 d d 1 1 5 5 5 1 1 5 5 d 4 .
-            . 4 5 5 1 1 5 1 1 5 5 d d d 4 .
-            . 2 5 5 5 d 1 1 1 5 1 1 5 5 2 .
-            . 2 d 5 5 d 1 1 1 5 1 1 5 5 2 .
-            . . 2 4 d d 5 5 5 5 d d 5 4 . .
-            . . . 2 2 4 d 5 5 d d 4 4 . . .
-            . . 2 2 2 2 2 4 4 4 2 2 2 . . .
-            . . . 2 2 4 4 4 4 4 4 2 2 . . .
-            . . . . . 2 2 2 2 2 2 . . . . .
-            `, Boss, -170, 55)
+        createTrackingBullet()
+        createTrackingBullet()
     }
 })
 game.onUpdateInterval(500, function () {
