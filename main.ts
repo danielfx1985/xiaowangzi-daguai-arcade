@@ -8,6 +8,7 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function (sprite, ot
         sprite.destroy(effects.fire, 500)
         playerHP = Math.max(0, playerHP - 20)
         scene.cameraShake(3, 200)
+        music.play(music.melodyPlayable(music.smallCrash), music.PlaybackMode.InBackground)
         drawHPBars()
         if (playerHP <= 0) {
             game.over(false)
@@ -98,6 +99,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (Boss != null && Math.abs(小王子.x - Boss.x) < 35) {
         bossHP = Math.max(0, bossHP - 15)
         Boss.startEffect(effects.fire, 500)
+        music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.InBackground)
         scene.cameraShake(2, 200)
         drawHPBars()
         if (bossHP <= 0) {
@@ -339,6 +341,7 @@ bossBar.z = 100
 bossBar.setPosition(128, 6)
 drawHPBars()
 info.startCountdown(60)
+music.play(music.melodyPlayable(music.funk), music.PlaybackMode.LoopingInBackground)
 scene.setBackgroundImage(img`
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
@@ -532,6 +535,8 @@ game.onUpdateInterval(500, function () {
     drawHPBars()
     if (!(isBerserk) && bossHP > 0 && bossHP <= 25) {
         isBerserk = true
+        music.stopAllSounds()
+        music.play(music.melodyPlayable(music.chase), music.PlaybackMode.LoopingInBackground)
         scene.cameraShake(10, 800)
         game.splash("!! BOSS 进入疯狂模式 !!")
     }
